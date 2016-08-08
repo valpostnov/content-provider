@@ -8,9 +8,9 @@ import rx.Observable;
 /**
  * Created by platon on 02.08.2016.
  */
-public class ArtistsRepositoryImpl implements DataSource
+public class ArtistsRepository implements DataSource
 {
-    private static ArtistsRepositoryImpl sInstance;
+    private static ArtistsRepository sInstance;
     private DataSource localDataSource;
     private DataSource remoteDataSource;
 
@@ -18,16 +18,16 @@ public class ArtistsRepositoryImpl implements DataSource
     {
         if (sInstance == null)
         {
-            sInstance = new ArtistsRepositoryImpl(local, remote);
+            sInstance = new ArtistsRepository(local, remote);
         }
     }
 
-    public static ArtistsRepositoryImpl getRepository()
+    public static ArtistsRepository getRepository()
     {
         return sInstance;
     }
 
-    private ArtistsRepositoryImpl(DataSource local, DataSource remote)
+    private ArtistsRepository(DataSource local, DataSource remote)
     {
         remoteDataSource = remote;
         localDataSource = local;

@@ -8,7 +8,7 @@ import ru.yandex.yamblz.content_provider.data.entity.Artist;
 import ru.yandex.yamblz.content_provider.data.entity.mapper.ArtistToStringMapper;
 import ru.yandex.yamblz.content_provider.data.entity.mapper.TypeMapper;
 import ru.yandex.yamblz.content_provider.data.repository.DataSource;
-import ru.yandex.yamblz.content_provider.data.repository.ArtistsRepositoryImpl;
+import ru.yandex.yamblz.content_provider.data.repository.ArtistsRepository;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -24,7 +24,7 @@ public class Injection
 
     public static DataSource provideDataSource()
     {
-        return ArtistsRepositoryImpl.getRepository();
+        return ArtistsRepository.getRepository();
     }
 
     public static CompositeSubscription provideCompositeSubscription()

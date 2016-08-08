@@ -2,7 +2,7 @@ package ru.yandex.yamblz.content_provider;
 
 import android.app.Application;
 
-import ru.yandex.yamblz.content_provider.data.repository.ArtistsRepositoryImpl;
+import ru.yandex.yamblz.content_provider.data.repository.ArtistsRepository;
 import ru.yandex.yamblz.content_provider.data.repository.source.local.LocalDataSource;
 import ru.yandex.yamblz.content_provider.data.repository.source.remote.RemoteDataSource;
 
@@ -15,6 +15,6 @@ public class App extends Application
     public void onCreate()
     {
         super.onCreate();
-        ArtistsRepositoryImpl.init(new LocalDataSource(getContentResolver()), new RemoteDataSource());
+        ArtistsRepository.init(new LocalDataSource(getContentResolver()), new RemoteDataSource());
     }
 }
