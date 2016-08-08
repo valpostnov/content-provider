@@ -33,28 +33,18 @@ import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTabl
 @Config(constants = BuildConfig.class, sdk = 21)
 public final class DbOpenHelperTest
 {
-    private SQLiteDatabase db;
-    private ContentValues cv;
-
-    @Before
-    public void init()
-    {
-        db = new ArtistsDBOpenHelper(RuntimeEnvironment.application).getWritableDatabase();
-        cv = makeCV();
-    }
-
-    @Test
-    public void shouldCreateDb()
-    {
-        Assert.assertNotNull(db);
-    }
-
     @Test
     public void testInsertArtist()
     {
-        db.insert(TABLE_NAME, null, cv);
+        SQLiteDatabase db = new ArtistsDBOpenHelper(RuntimeEnvironment.application).getWritableDatabase();
+
+        //проверяем создание бд
+        Assert.assertNotNull(db);
+
+        db.insert(TABLE_NAME, null, makeCV());
         int count = db.rawQuery("select * from " + TABLE_NAME, null).getCount();
 
+        //проверяем вставку одного артиста
         Assert.assertEquals(1, count);
     }
 
