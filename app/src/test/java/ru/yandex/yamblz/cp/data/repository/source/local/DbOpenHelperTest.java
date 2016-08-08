@@ -46,6 +46,14 @@ public final class DbOpenHelperTest
 
         //проверяем вставку одного артиста
         Assert.assertEquals(1, count);
+
+        Cursor cursor = db.rawQuery("select name from " + TABLE_NAME + " where name = 'VA'", null);
+        cursor.moveToNext();
+        String artistName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ARTIST_NAME));
+        cursor.close();
+
+        //проверяем, что вставленный артист есть в бд
+        Assert.assertEquals("VA", artistName);
     }
 
     private ContentValues makeCV()
