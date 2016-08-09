@@ -10,6 +10,7 @@ import com.pushtorefresh.storio.contentresolver.queries.Query;
 
 import java.util.List;
 
+import ru.yandex.yamblz.cp.Injection;
 import ru.yandex.yamblz.cp.data.entity.Artist;
 import ru.yandex.yamblz.cp.data.repository.DataSource;
 import ru.yandex.yamblz.cp.data.repository.source.local.provider.ArtistsMeta;
@@ -26,13 +27,7 @@ public class LocalDataSource implements DataSource
 
     public LocalDataSource(ContentResolver contentResolver)
     {
-        storIOContentResolver = DefaultStorIOContentResolver.builder()
-                .contentResolver(contentResolver)
-                .addTypeMapping(Artist.class, ContentResolverTypeMapping.<Artist>builder()
-                        .putResolver(ArtistsMeta.PUT_RESOLVER)
-                        .getResolver(ArtistsMeta.GET_RESOLVER)
-                        .deleteResolver(ArtistsMeta.DELETE_RESOLVER).build())
-                .build();
+        storIOContentResolver = Injection.provideStoreIOContentResolver(contentResolver);
     }
 
     @Override
