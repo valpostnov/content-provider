@@ -44,7 +44,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardVie
                 Injection.provideCompositeSubscription(),
                 Injection.provideMapper());
 
-        contentAdapter = new ContentAdapter(emptyView);
+        contentAdapter = new ContentAdapter();
         contentAdapter.setOnItemClickListener(this);
 
         rv.setAdapter(contentAdapter);
@@ -92,6 +92,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardVie
     public void showList(List<String> content)
     {
         contentAdapter.changeList(content);
+        emptyView.setVisibility(contentAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     @Override

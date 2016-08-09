@@ -17,7 +17,6 @@ import ru.yandex.yamblz.cp.R;
  */
 public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ArtistsViewHolder>
 {
-    private View emptyView;
     private List<String> contents;
     private OnItemClickListener onItemClickListener;
 
@@ -26,10 +25,6 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ArtistsV
         void onItemClick(View view, int position);
     }
 
-    public ContentAdapter(View emptyView)
-    {
-        this.emptyView = emptyView;
-    }
 
     @Override
     public ArtistsViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -56,7 +51,6 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ArtistsV
     {
         contents = newList;
         notifyDataSetChanged();
-        emptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     public List<String> getList()
