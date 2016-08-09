@@ -1,5 +1,6 @@
 package ru.yandex.yamblz.cp.dashboard;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -19,16 +21,16 @@ import ru.yandex.yamblz.cp.R;
 import ru.yandex.yamblz.cp.dashboard.interfaces.DashboardPresenter;
 import ru.yandex.yamblz.cp.dashboard.interfaces.DashboardView;
 
-public class DashboardActivity extends AppCompatActivity implements DashboardView, ContentAdapter.OnItemClickListener
+public class DashboardActivity extends AppCompatActivity implements DashboardView, ContentAdapter.OnItemClickListener,
+        SwipeRefreshLayout.OnRefreshListener
 {
-    private static final String TAG = "DashboardActivity";
-
     private DashboardPresenter presenter;
     private ContentAdapter contentAdapter;
 
     @BindView(R.id.rv_simple_content) RecyclerView rv;
     @BindView(R.id.ev_content) View emptyView;
     @BindView(R.id.main_toolbar) Toolbar toolbar;
+    @BindView(R.id.swipe_view) SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,37 +41,18 @@ public class DashboardActivity extends AppCompatActivity implements DashboardVie
 
         setSupportActionBar(toolbar);
 
-        presenter = Injection.providePresenter(
-                Injection.provideDataSource(),
-                Injection.provideCompositeSubscription(),
+        presenter = new DashboardPresenterImpl(
+                Injection.provideRepository(
+                        Injection.provideLocalDataSource(getContentResolver()),
+                        Injection.provideRemoteDataSource()),
                 Injection.provideMapper());
 
         contentAdapter = new ContentAdapter();
         contentAdapter.setOnItemClickListener(this);
+        refreshLayout.setOnRefreshListener(this);
 
         rv.setAdapter(contentAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.dashboard_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.action_refresh:
-                presenter.fetchData(true);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -98,9 +81,21 @@ public class DashboardActivity extends AppCompatActivity implements DashboardVie
     @Override
     public void showError(String error)
     {
-        Log.e(TAG, error);
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgressView(boolean show)
+    {
+        refreshLayout.setRefreshing(show);
     }
 
     @Override
     public void onItemClick(View view, int position) {}
+
+    @Override
+    public void onRefresh()
+    {
+        presenter.fetchData(true);
+    }
 }

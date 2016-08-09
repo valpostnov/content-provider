@@ -9,4 +9,5 @@ public interface DashboardView
 {
     void showList(List<String> content);
     void showError(String error);
+    void showProgressView(boolean show);
 }

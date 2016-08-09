@@ -10,24 +10,10 @@ import rx.Observable;
  */
 public class ArtistsRepository implements DataSource
 {
-    private static ArtistsRepository sInstance;
     private DataSource localDataSource;
     private DataSource remoteDataSource;
 
-    public static void init(DataSource local, DataSource remote)
-    {
-        if (sInstance == null)
-        {
-            sInstance = new ArtistsRepository(local, remote);
-        }
-    }
-
-    public static ArtistsRepository getRepository()
-    {
-        return sInstance;
-    }
-
-    private ArtistsRepository(DataSource local, DataSource remote)
+    public ArtistsRepository(DataSource local, DataSource remote)
     {
         remoteDataSource = remote;
         localDataSource = local;

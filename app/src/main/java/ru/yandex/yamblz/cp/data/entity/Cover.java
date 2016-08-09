@@ -33,4 +33,26 @@ public class Cover implements Serializable
     public void setCoverBig(String coverBig) {
         this.mCoverBig = coverBig;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cover cover = (Cover) o;
+
+        if (!mCoverSmall.equals(cover.mCoverSmall)) return false;
+
+        return mCoverBig.equals(cover.mCoverBig);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = mCoverSmall.hashCode();
+        result = 31 * result + mCoverBig.hashCode();
+
+        return result;
+    }
 }

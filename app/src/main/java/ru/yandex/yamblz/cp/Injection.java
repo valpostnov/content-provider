@@ -15,7 +15,9 @@ import ru.yandex.yamblz.cp.data.entity.mapper.ArtistToStringMapper;
 import ru.yandex.yamblz.cp.data.entity.mapper.TypeMapper;
 import ru.yandex.yamblz.cp.data.repository.DataSource;
 import ru.yandex.yamblz.cp.data.repository.ArtistsRepository;
+import ru.yandex.yamblz.cp.data.repository.source.local.LocalDataSource;
 import ru.yandex.yamblz.cp.data.repository.source.local.provider.ArtistsMeta;
+import ru.yandex.yamblz.cp.data.repository.source.remote.RemoteDataSource;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -23,20 +25,19 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class Injection
 {
-    public static DashboardPresenter providePresenter(DataSource d, CompositeSubscription s,
-                                                      TypeMapper<List<Artist>, List<String>> m)
+    public static DataSource provideRepository(DataSource local, DataSource remote)
     {
-        return new DashboardPresenterImpl(d, s, m);
+        return new ArtistsRepository(local, remote);
     }
 
-    public static DataSource provideDataSource()
+    public static DataSource provideLocalDataSource(ContentResolver contentResolver)
     {
-        return ArtistsRepository.getRepository();
+        return new LocalDataSource(contentResolver);
     }
 
-    public static CompositeSubscription provideCompositeSubscription()
+    public static DataSource provideRemoteDataSource()
     {
-        return new CompositeSubscription();
+        return new RemoteDataSource();
     }
 
     public static TypeMapper<List<Artist>, List<String>> provideMapper()

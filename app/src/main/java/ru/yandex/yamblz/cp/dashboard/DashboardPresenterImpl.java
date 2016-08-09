@@ -7,7 +7,10 @@ import ru.yandex.yamblz.cp.dashboard.interfaces.DashboardView;
 import ru.yandex.yamblz.cp.data.entity.Artist;
 import ru.yandex.yamblz.cp.data.entity.mapper.TypeMapper;
 import ru.yandex.yamblz.cp.data.exception.DefaultErrorBundle;
+import ru.yandex.yamblz.cp.data.exception.NetworkConnectionException;
 import ru.yandex.yamblz.cp.data.repository.DataSource;
+import ru.yandex.yamblz.cp.util.INetworkManager;
+import ru.yandex.yamblz.cp.util.NetworkManager;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -23,10 +26,10 @@ public class DashboardPresenterImpl implements DashboardPresenter
     private CompositeSubscription subscriptions;
     private TypeMapper<List<Artist>, List<String>> mapper;
 
-    public DashboardPresenterImpl(DataSource ds, CompositeSubscription subs, TypeMapper<List<Artist>, List<String>> m)
+    public DashboardPresenterImpl(DataSource ds, TypeMapper<List<Artist>, List<String>> m)
     {
+        subscriptions = new CompositeSubscription();
         dataSource = ds;
-        subscriptions = subs;
         mapper = m;
     }
 
@@ -51,15 +54,34 @@ public class DashboardPresenterImpl implements DashboardPresenter
     @Override
     public void fetchData(boolean forceLoad)
     {
-        if (forceLoad) dataSource.delete();
+        INetworkManager networkManager = NetworkManager.getManager();
+        if (networkManager != null && networkManager.networkIsAvailable())
+        {
+            dashboardView.showProgressView(true);
+            if (forceLoad) dataSource.delete();
 
-        subscriptions.add(dataSource.artists()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(mapper::map)
-                .subscribe(onNext, onError));
+            subscriptions.add(dataSource.artists()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(mapper::map)
+                    .subscribe(onNext, onError));
+        }
+        else
+        {
+            dashboardView.showProgressView(false);
+            dashboardView.showError(new NetworkConnectionException().getMessage());
+        }
     }
 
-    private Action1<List<String>> onNext = content -> dashboardView.showList(content);
-    private Action1<Throwable> onError = e -> dashboardView.showError(new DefaultErrorBundle(e).getMessage());
+    private Action1<List<String>> onNext = content ->
+    {
+        dashboardView.showList(content);
+        dashboardView.showProgressView(false);
+    };
+
+    private Action1<Throwable> onError = e ->
+    {
+        dashboardView.showError(new DefaultErrorBundle(e).getMessage());
+        dashboardView.showProgressView(false);
+    };
 }

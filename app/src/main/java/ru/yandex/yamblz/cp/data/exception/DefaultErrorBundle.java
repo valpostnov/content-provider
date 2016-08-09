@@ -8,9 +8,9 @@ public class DefaultErrorBundle implements ErrorBundle
     private static final String DEFAULT_ERROR_MSG = "Unknown error";
     private final Throwable throwable;
 
-    public DefaultErrorBundle(Throwable exception)
+    public DefaultErrorBundle(Throwable throwable)
     {
-        this.throwable = exception;
+        this.throwable = throwable;
     }
 
     @Override
