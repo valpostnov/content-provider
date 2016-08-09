@@ -4,10 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/main_toolbar"
+        layout="@layout/toolbar"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_simple_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
         android:scrollbars="vertical"
         />
 
@@ -17,7 +22,8 @@
         android:layout_height="match_parent"
         android:text="@string/ev_text"
         android:gravity="center_vertical|center_horizontal"
-        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_marginTop="?actionBarSize"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
         />
 
 </FrameLayout>

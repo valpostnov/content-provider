@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardVie
 
     @BindView(R.id.rv_simple_content) RecyclerView rv;
     @BindView(R.id.ev_content) View emptyView;
+    @BindView(R.id.main_toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,6 +36,8 @@ public class DashboardActivity extends AppCompatActivity implements DashboardVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         presenter = Injection.providePresenter(
                 Injection.provideDataSource(),
