@@ -17,6 +17,7 @@ public class ArtistsDBOpenHelper extends SQLiteOpenHelper
     public ArtistsDBOpenHelper(Context context)
     {
         super(context, DATABASE_NAME, null, VERSION);
+        setWriteAheadLoggingEnabled(true);
     }
 
     @Override

@@ -25,21 +25,6 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class Injection
 {
-    public static DataSource provideRepository(DataSource local, DataSource remote)
-    {
-        return new ArtistsRepository(local, remote);
-    }
-
-    public static DataSource provideLocalDataSource(ContentResolver contentResolver)
-    {
-        return new LocalDataSource(contentResolver);
-    }
-
-    public static DataSource provideRemoteDataSource()
-    {
-        return new RemoteDataSource();
-    }
-
     public static TypeMapper<List<Artist>, List<String>> provideMapper()
     {
         return new ArtistToStringMapper();

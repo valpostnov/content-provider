@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.yandex.yamblz.cp.App;
 import ru.yandex.yamblz.cp.Injection;
 import ru.yandex.yamblz.cp.R;
 import ru.yandex.yamblz.cp.dashboard.interfaces.DashboardPresenter;
@@ -41,11 +42,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardVie
 
         setSupportActionBar(toolbar);
 
-        presenter = new DashboardPresenterImpl(
-                Injection.provideRepository(
-                        Injection.provideLocalDataSource(getContentResolver()),
-                        Injection.provideRemoteDataSource()),
-                Injection.provideMapper());
+        presenter = new DashboardPresenterImpl(App.from(this).getRepository(), Injection.provideMapper());
 
         contentAdapter = new ContentAdapter();
         contentAdapter.setOnItemClickListener(this);
