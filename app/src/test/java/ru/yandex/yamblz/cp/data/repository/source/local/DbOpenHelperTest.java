@@ -16,13 +16,9 @@ import java.util.List;
 
 import ru.yandex.yamblz.cp.BuildConfig;
 import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.entity.ArtistWithGenre;
 import ru.yandex.yamblz.cp.data.entity.Genre;
 import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManager;
 import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManagerImpl;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsGenresTable;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.GenresTable;
 
 /**
  * Created by platon on 08.08.2016.

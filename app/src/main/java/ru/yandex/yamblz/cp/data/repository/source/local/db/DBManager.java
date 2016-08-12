@@ -1,11 +1,11 @@
 package ru.yandex.yamblz.cp.data.repository.source.local.db;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
 import java.util.List;
 
 import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.entity.ArtistWithGenre;
 import ru.yandex.yamblz.cp.data.entity.Genre;
 
 /**
@@ -17,6 +17,8 @@ public interface DBManager
     Cursor getGenres(String[] columns, String selection, String[] selectionArgs, String sortOrder);
     Cursor getArtistsWithGenres(String[] columns, String selection, String[] selectionArgs, String sortOrder);
 
+    long putArtist(ContentValues cv);
+    int deleteArtist(String selection, String[] selectionArgs);
     void putArtists(List<Artist> artists);
     void putGenres(List<Genre> genres);
     void putArtistsWithGenres(List<Artist> artists);

@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.List;
 
 import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.entity.ArtistWithGenre;
 import ru.yandex.yamblz.cp.data.entity.Genre;
 import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsGenresTable;
 import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable;
@@ -88,6 +87,20 @@ public class DBManagerImpl implements DBManager
         if (cursor != null) cursor.moveToFirst();
 
         return cursor;
+    }
+
+    @Override
+    public long putArtist(ContentValues cv)
+    {
+        SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+        return db.insert(ArtistsTable.TABLE_NAME, null, cv);
+    }
+
+    @Override
+    public int deleteArtist(String selection, String[] selectionArgs)
+    {
+        SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+        return db.delete(ArtistsTable.TABLE_NAME, selection, selectionArgs);
     }
 
     @Override

@@ -10,6 +10,9 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import ru.yandex.yamblz.cp.data.repository.source.local.ArtistsDBOpenHelper;
+import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManager;
+import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManagerImpl;
+import ru.yandex.yamblz.cp.data.repository.source.local.view.ArtistsView;
 
 import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.TABLE_NAME;
 
@@ -29,12 +32,12 @@ public class ArtistsContentProvider extends ContentProvider
         URI_MATCHER.addURI(AUTHORITY, PATH_ARTISTS, CODE_ARTISTS);
     }
 
-    private SQLiteOpenHelper sqLiteOpenHelper;
+    private DBManager dbManager;
 
     @Override
     public boolean onCreate()
     {
-        sqLiteOpenHelper = new ArtistsDBOpenHelper(getContext());
+        dbManager = new DBManagerImpl(new ArtistsDBOpenHelper(getContext()));
         return true;
     }
 
@@ -46,15 +49,10 @@ public class ArtistsContentProvider extends ContentProvider
         {
             case CODE_ARTISTS:
 
-                Cursor cursor = sqLiteOpenHelper
-                        .getReadableDatabase()
-                        .query(
-                                TABLE_NAME,
+                Cursor cursor = dbManager.getArtists(
                                 projection,
                                 selection,
                                 selectionArgs,
-                                null,
-                                null,
                                 sortOrder
                               );
 
@@ -82,13 +80,8 @@ public class ArtistsContentProvider extends ContentProvider
         switch (URI_MATCHER.match(uri))
         {
             case CODE_ARTISTS:
-                insertedId = sqLiteOpenHelper
-                        .getWritableDatabase()
-                        .insert(
-                                TABLE_NAME,
-                                null,
-                                values
-                        );
+
+                insertedId = dbManager.putArtist(values);
                 break;
 
             default:
@@ -111,13 +104,8 @@ public class ArtistsContentProvider extends ContentProvider
         switch (URI_MATCHER.match(uri))
         {
             case CODE_ARTISTS:
-                numberOfRowsDeleted = sqLiteOpenHelper
-                        .getWritableDatabase()
-                        .delete(
-                                TABLE_NAME,
-                                selection,
-                                selectionArgs
-                        );
+
+                numberOfRowsDeleted = dbManager.deleteArtist(selection, selectionArgs);
                 break;
 
             default:
@@ -135,30 +123,6 @@ public class ArtistsContentProvider extends ContentProvider
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
     {
-        final int numberOfRowsAffected;
-
-        switch (URI_MATCHER.match(uri))
-        {
-            case CODE_ARTISTS:
-                numberOfRowsAffected = sqLiteOpenHelper
-                        .getWritableDatabase()
-                        .update(
-                                TABLE_NAME,
-                                values,
-                                selection,
-                                selectionArgs
-                        );
-                break;
-
-            default:
-                return 0;
-        }
-
-        if (numberOfRowsAffected > 0)
-        {
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
-
-        return numberOfRowsAffected;
+        return -1;
     }
 }
