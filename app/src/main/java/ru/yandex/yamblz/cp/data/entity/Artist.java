@@ -27,8 +27,7 @@ public class Artist implements Serializable
     @SerializedName("cover")
     private Cover cover;
 
-    public Artist(int id, String name, String[] genres,
-                  int tracks, int albums, String desc, Cover cover)
+    public Artist(int id, String name, String[] genres, int tracks, int albums, String desc, Cover cover)
     {
         this.id = id;
         this.name = name;
@@ -47,29 +46,9 @@ public class Artist implements Serializable
         return name;
     }
 
-    public String getGenres() {
+    public String[] getGenres() {
 
-        StringBuilder genres = new StringBuilder();
-
-        if (this.genres.length > 1)
-        {
-            genres.append(this.genres[0]);
-            for (int i = 1; i < this.genres.length; i++)
-            {
-                genres.append(", ");
-                genres.append(this.genres[i]);
-            }
-        }
-        else if (this.genres.length == 0)
-        {
-            genres.append("unknown");
-        }
-        else
-        {
-            genres.append(this.genres[0]);
-        }
-
-        return genres.toString();
+        return genres;
     }
 
     public int getTracks() {
