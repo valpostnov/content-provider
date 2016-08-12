@@ -5,10 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.entity.Genre;
 import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsGenresTable;
 import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable;
 import ru.yandex.yamblz.cp.data.repository.source.local.table.GenresTable;
@@ -71,7 +73,7 @@ public class DBManagerImpl implements DBManager
     }
 
     @Override
-    public Cursor getArtistsWithGenres(String[] columns, String selection, String[] selectionArgs, String sortOrder)
+    public Cursor getArtistsGenres(String[] columns, String selection, String[] selectionArgs, String sortOrder)
     {
         Cursor cursor = sqLiteOpenHelper
                 .getReadableDatabase()
@@ -94,6 +96,13 @@ public class DBManagerImpl implements DBManager
     {
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
         return db.insert(ArtistsTable.TABLE_NAME, null, cv);
+    }
+
+    @Override
+    public long putGenre(ContentValues cv)
+    {
+        SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+        return db.insert(GenresTable.TABLE_NAME, null, cv);
     }
 
     @Override
@@ -120,26 +129,26 @@ public class DBManagerImpl implements DBManager
 
             db.insert(ArtistsTable.TABLE_NAME, null, cv);
         }
+
+        putGenres(getGenresFromArtists(artists));
+        putArtistsGenres(artists);
     }
 
     @Override
-    public void putGenres(List<Genre> genres)
+    public void putGenres(Set<String> genres)
     {
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
 
-        for (Genre genre : genres)
+        for (String genre : genres)
         {
             ContentValues cv = new ContentValues();
-
-            cv.put(GenresTable.COLUMN_GENRE_ID, genre.getId());
-            cv.put(GenresTable.COLUMN_GENRE_NAME, genre.getName());
-
+            cv.put(GenresTable.COLUMN_GENRE_NAME, genre);
             db.insert(GenresTable.TABLE_NAME, null, cv);
         }
     }
 
     @Override
-    public void putArtistsWithGenres(List<Artist> artists)
+    public void putArtistsGenres(List<Artist> artists)
     {
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
 
@@ -176,5 +185,16 @@ public class DBManagerImpl implements DBManager
         cursor.close();
 
         return id;
+    }
+
+    private Set<String> getGenresFromArtists(List<Artist> artists)
+    {
+        Set<String> genres = new TreeSet<>();
+        for (Artist a : artists)
+        {
+            Collections.addAll(genres, a.getGenres());
+        }
+
+        return genres;
     }
 }

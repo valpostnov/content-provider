@@ -2,7 +2,6 @@ package ru.yandex.yamblz.cp.data.repository.source.local;
 
 import android.database.Cursor;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +11,13 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ru.yandex.yamblz.cp.BuildConfig;
 import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.entity.Genre;
 import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManager;
 import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManagerImpl;
 
@@ -40,8 +41,6 @@ public final class DbOpenHelperTest
     public void testPutArtists()
     {
         dbManager.putArtists(createArtists());
-        dbManager.putGenres(createGenres());
-        dbManager.putArtistsWithGenres(createArtists());
 
         Cursor cursor = dbManager.getArtists(
                 new String[] {"*"},
@@ -50,22 +49,6 @@ public final class DbOpenHelperTest
                 null);
 
         Assert.assertEquals(2, cursor.getCount());
-    }
-
-    @Test
-    public void testPutArtistsWithGenres()
-    {
-        dbManager.putArtists(createArtists());
-        dbManager.putGenres(createGenres());
-        dbManager.putArtistsWithGenres(createArtists());
-
-        Cursor cursor = dbManager.getArtistsWithGenres(
-                new String[] {"*"},
-                null,
-                null,
-                null);
-
-        Assert.assertEquals(3, cursor.getCount());
     }
 
     @Test
@@ -82,13 +65,11 @@ public final class DbOpenHelperTest
         Assert.assertEquals(3, cursor.getCount());
     }
 
-
-    private List<Genre> createGenres()
+    private Set<String> createGenres()
     {
-        return Arrays.asList(
-                new Genre(0, "pop"),
-                new Genre(1, "rock"),
-                new Genre(2, "jazz"));
+        Set<String> genres = new TreeSet<>();
+        Collections.addAll(genres, "pop", "rock", "jazz");
+        return genres;
     }
 
     private List<Artist> createArtists()
