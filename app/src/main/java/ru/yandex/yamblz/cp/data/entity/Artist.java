@@ -46,9 +46,29 @@ public class Artist implements Serializable
         return name;
     }
 
-    public String[] getGenres() {
+    public String getGenres()
+    {
+        StringBuilder builder = new StringBuilder();
 
-        return genres;
+        if (genres.length > 1)
+        {
+            builder.append(genres[0]);
+            for (int i = 1; i < genres.length; i++)
+            {
+                builder.append(", ");
+                builder.append(genres[i]);
+            }
+        }
+        else if (genres.length == 0)
+        {
+            builder.append("unknown");
+        }
+        else
+        {
+            builder.append(genres[0]);
+        }
+
+        return builder.toString();
     }
 
     public int getTracks() {

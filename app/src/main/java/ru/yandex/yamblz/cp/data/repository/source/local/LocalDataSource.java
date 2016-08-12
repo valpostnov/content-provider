@@ -25,9 +25,9 @@ public class LocalDataSource implements DataSource
 {
     private StorIOContentResolver storIOContentResolver;
 
-    public LocalDataSource(ContentResolver contentResolver)
+    public LocalDataSource(StorIOContentResolver storIOContentResolver)
     {
-        storIOContentResolver = Injection.provideStoreIOContentResolver(contentResolver);
+        this.storIOContentResolver = storIOContentResolver;
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.pushtorefresh.storio.contentresolver.queries.UpdateQuery;
 
 import ru.yandex.yamblz.cp.data.entity.Artist;
 import ru.yandex.yamblz.cp.data.entity.Cover;
+import ru.yandex.yamblz.cp.data.repository.source.local.table.GenresTable;
 
 import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.*;
 
@@ -61,10 +62,10 @@ public class ArtistsMeta
             contentValues.put(COLUMN_ARTIST_NAME, artist.getName());
             contentValues.put(COLUMN_TRACKS, artist.getTracks());
             contentValues.put(COLUMN_ALBUMS, artist.getAlbums());
-            contentValues.put(COLUMN_GENRES, artist.getGenres());
             contentValues.put(COLUMN_DESC, artist.getDesc());
             contentValues.put(COLUMN_COVER_SMALL, artist.getCover().getSmall());
             contentValues.put(COLUMN_COVER_BIG, artist.getCover().getCoverBig());
+            contentValues.put(GenresTable.COLUMN_GENRE_NAME, artist.getGenres());
 
             return contentValues;
         }
@@ -81,12 +82,11 @@ public class ArtistsMeta
                     .setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ARTIST_NAME)))
                     .setAlbums(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALBUMS)))
                     .setTracks(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_TRACKS)))
+                    .setGenres(new String[] {cursor.getString(cursor.getColumnIndexOrThrow(GenresTable.COLUMN_GENRE_NAME))})
                     .setDesc(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESC)))
                     .setCover(new Cover(
-                            cursor.getString(
-                                    cursor.getColumnIndexOrThrow(COLUMN_COVER_SMALL)),
-                                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COVER_BIG)))
-                             )
+                                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COVER_SMALL)),
+                                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COVER_BIG))))
                     .build();
         }
     };

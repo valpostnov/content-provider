@@ -30,8 +30,8 @@ public class App extends Application
     public void onCreate()
     {
         super.onCreate();
-        NetworkManager.init(getApplicationContext());
-        DataSource local = new LocalDataSource(getContentResolver());
+        NetworkManager.init(this);
+        DataSource local = new LocalDataSource(Injection.provideStoreIOContentResolver(getContentResolver()));
         artistRepository = new ArtistsRepository(local, new RemoteDataSource());
     }
 }

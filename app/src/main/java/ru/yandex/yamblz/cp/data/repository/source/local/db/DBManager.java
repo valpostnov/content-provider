@@ -15,12 +15,9 @@ public interface DBManager
 {
     Cursor getArtists(String[] columns, String selection, String[] selectionArgs, String sortOrder);
     Cursor getGenres(String[] columns, String selection, String[] selectionArgs, String sortOrder);
-    Cursor getArtistsGenres(String[] columns, String selection, String[] selectionArgs, String sortOrder);
 
     long putArtist(ContentValues cv);
-    long putGenre(ContentValues cv);
+    void putGenre(ContentValues cv);
+
     int deleteArtist(String selection, String[] selectionArgs);
-    void putArtists(List<Artist> artists);
-    void putGenres(Set<String> genres);
-    void putArtistsGenres(List<Artist> artists);
 }
