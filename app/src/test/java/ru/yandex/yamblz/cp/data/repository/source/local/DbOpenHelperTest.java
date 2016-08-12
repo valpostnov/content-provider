@@ -1,8 +1,6 @@
 package ru.yandex.yamblz.cp.data.repository.source.local;
 
-import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -13,17 +11,18 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import ru.yandex.yamblz.cp.BuildConfig;
+import java.util.Arrays;
+import java.util.List;
 
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_ALBUMS;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_ARTIST_ID;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_ARTIST_NAME;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_COVER_BIG;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_COVER_SMALL;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_DESC;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_GENRES;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.COLUMN_TRACKS;
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.TABLE_NAME;
+import ru.yandex.yamblz.cp.BuildConfig;
+import ru.yandex.yamblz.cp.data.entity.Artist;
+import ru.yandex.yamblz.cp.data.entity.ArtistWithGenre;
+import ru.yandex.yamblz.cp.data.entity.Genre;
+import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManager;
+import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManagerImpl;
+import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsGenresTable;
+import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable;
+import ru.yandex.yamblz.cp.data.repository.source.local.table.GenresTable;
 
 /**
  * Created by platon on 08.08.2016.
@@ -33,54 +32,76 @@ import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTabl
 @Config(constants = BuildConfig.class, sdk = 21)
 public final class DbOpenHelperTest
 {
-    private SQLiteDatabase db;
-    private String simpleSelectQuery;
-    private String simpleWhereQuery;
+    private DBManager dbManager;
 
     @Before
     public void init()
     {
-        db = new ArtistsDBOpenHelper(RuntimeEnvironment.application).getWritableDatabase();
-        simpleSelectQuery = "select * from " + TABLE_NAME;
-        simpleWhereQuery = "select name from " + TABLE_NAME + " where name = 'VA'";
+        dbManager = new DBManagerImpl(new ArtistsDBOpenHelper(RuntimeEnvironment.application));
     }
 
     @Test
-    public void testInsertArtist()
+    public void testPutArtists()
     {
-        Assert.assertNotNull(db);
+        dbManager.putArtists(createArtists());
+        dbManager.putGenres(createGenres());
+        dbManager.putArtistsWithGenres(createArtists());
 
-        db.insert(TABLE_NAME, null, createContentValues());
-        int count = db.rawQuery(simpleSelectQuery, null).getCount();
+        Cursor cursor = dbManager.getArtists(
+                new String[] {"*"},
+                null,
+                null,
+                null);
 
-        Assert.assertEquals(1, count);
-
-        Cursor cursor = db.rawQuery(simpleWhereQuery, null);
-        String artistName = getField(cursor);
-
-        Assert.assertEquals("VA", artistName);
+        Assert.assertEquals(2, cursor.getCount());
     }
 
-    private ContentValues createContentValues()
+    @Test
+    public void testPutArtistsWithGenres()
     {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_ARTIST_ID, 0);
-        cv.put(COLUMN_ARTIST_NAME, "VA");
-        cv.put(COLUMN_TRACKS, 100);
-        cv.put(COLUMN_ALBUMS, 30);
-        cv.put(COLUMN_DESC, "desc");
-        cv.put(COLUMN_GENRES, "rap");
-        cv.put(COLUMN_COVER_SMALL, "small");
-        cv.put(COLUMN_COVER_BIG, "big");
+        dbManager.putArtists(createArtists());
+        dbManager.putGenres(createGenres());
+        dbManager.putArtistsWithGenres(createArtists());
 
-        return cv;
+        Cursor cursor = dbManager.getArtistsWithGenres(
+                new String[] {"*"},
+                null,
+                null,
+                null);
+
+        Assert.assertEquals(3, cursor.getCount());
     }
 
-    private String getField(Cursor cursor)
+    @Test
+    public void testPutGenres()
     {
-        cursor.moveToFirst();
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ARTIST_NAME));
-        cursor.close();
-        return name;
+        dbManager.putGenres(createGenres());
+
+        Cursor cursor = dbManager.getGenres(
+                new String[] {"*"},
+                null,
+                null,
+                null);
+
+        Assert.assertEquals(3, cursor.getCount());
+    }
+
+
+    private List<Genre> createGenres()
+    {
+        return Arrays.asList(
+                new Genre(0, "pop"),
+                new Genre(1, "rock"),
+                new Genre(2, "jazz"));
+    }
+
+    private List<Artist> createArtists()
+    {
+        String[] genres1 = {"pop"};
+        String[] genres2 = {"rock", "jazz"};
+
+        return Arrays.asList(
+                Artist.Builder().setId(0).setName("Tove Lo").setGenres(genres1).build(),
+                Artist.Builder().setId(1).setName("Reflex").setGenres(genres2).build());
     }
 }
