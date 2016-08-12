@@ -82,7 +82,7 @@ public class ArtistsMeta
                     .setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ARTIST_NAME)))
                     .setAlbums(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALBUMS)))
                     .setTracks(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_TRACKS)))
-                    .setGenres(new String[] {cursor.getString(cursor.getColumnIndexOrThrow(GenresTable.COLUMN_GENRE_NAME))})
+                    .setGenres(cursor.getString(cursor.getColumnIndexOrThrow(GenresTable.COLUMN_GENRE_NAME)).split(","))
                     .setDesc(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESC)))
                     .setCover(new Cover(
                                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COVER_SMALL)),
