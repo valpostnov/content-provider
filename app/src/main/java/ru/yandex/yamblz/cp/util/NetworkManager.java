@@ -30,8 +30,22 @@ public class NetworkManager implements INetworkManager
     @Override
     public boolean networkIsAvailable()
     {
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
+        ConnectivityManager connectivity
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeInfo = connectivity.getActiveNetworkInfo();
+
         return  (activeInfo != null && activeInfo.isConnected());
+    }
+
+    @Override
+    public boolean cellularIsAvailable()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean wifiIsAvailable()
+    {
+        return false;
     }
 }

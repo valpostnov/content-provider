@@ -8,7 +8,7 @@ import ru.yandex.yamblz.cp.data.entity.Artist;
 import ru.yandex.yamblz.cp.data.entity.mapper.TypeMapper;
 import ru.yandex.yamblz.cp.data.exception.DefaultErrorBundle;
 import ru.yandex.yamblz.cp.data.exception.NetworkConnectionException;
-import ru.yandex.yamblz.cp.data.repository.DataSource;
+import ru.yandex.yamblz.cp.data.source.DataSource;
 import ru.yandex.yamblz.cp.util.INetworkManager;
 import ru.yandex.yamblz.cp.util.NetworkManager;
 import rx.android.schedulers.AndroidSchedulers;

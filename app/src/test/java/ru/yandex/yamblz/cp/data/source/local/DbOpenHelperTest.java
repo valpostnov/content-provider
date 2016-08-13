@@ -1,4 +1,4 @@
-package ru.yandex.yamblz.cp.data.repository.source.local;
+package ru.yandex.yamblz.cp.data.source.local;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -11,15 +11,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.Arrays;
-import java.util.List;
-
 import ru.yandex.yamblz.cp.BuildConfig;
-import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManager;
-import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManagerImpl;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.GenresTable;
+import ru.yandex.yamblz.cp.data.source.local.table.ArtistsTable;
+import ru.yandex.yamblz.cp.data.source.local.table.GenresTable;
 
 /**
  * Created by platon on 08.08.2016.
@@ -36,7 +30,7 @@ public final class DbOpenHelperTest
     @Before
     public void init()
     {
-        dbManager = new DBManagerImpl(new ArtistsDBOpenHelper(RuntimeEnvironment.application));
+        dbManager = new DBManager(new ArtistsDBOpenHelper(RuntimeEnvironment.application));
         genreValues = new ContentValues(1);
         genreValues.put(GenresTable.COLUMN_GENRE_NAME, "pop, rock");
 

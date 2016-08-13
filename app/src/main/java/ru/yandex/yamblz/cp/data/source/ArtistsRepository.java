@@ -1,4 +1,4 @@
-package ru.yandex.yamblz.cp.data.repository;
+package ru.yandex.yamblz.cp.data.source;
 
 import java.util.List;
 

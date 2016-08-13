@@ -1,4 +1,4 @@
-package ru.yandex.yamblz.cp.data.repository.source.local.provider;
+package ru.yandex.yamblz.cp.data.source.local.provider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,9 +17,9 @@ import com.pushtorefresh.storio.contentresolver.queries.UpdateQuery;
 
 import ru.yandex.yamblz.cp.data.entity.Artist;
 import ru.yandex.yamblz.cp.data.entity.Cover;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.GenresTable;
+import ru.yandex.yamblz.cp.data.source.local.table.GenresTable;
 
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.*;
+import static ru.yandex.yamblz.cp.data.source.local.table.ArtistsTable.*;
 
 
 /**

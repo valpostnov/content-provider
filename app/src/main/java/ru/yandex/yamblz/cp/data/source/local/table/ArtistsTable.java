@@ -1,11 +1,11 @@
-package ru.yandex.yamblz.cp.data.repository.source.local.table;
+package ru.yandex.yamblz.cp.data.source.local.table;
 
 /**
  * Created by platon on 31.07.2016.
  */
 public class ArtistsTable
 {
-    public static final String TABLE_NAME = "artists";
+    public static final String TABLE = "artists";
     public static final String COLUMN_ARTIST_ID = "artist_id";
     public static final String COLUMN_ARTIST_NAME = "artist_name";
     public static final String COLUMN_TRACKS = "tracks";
@@ -21,7 +21,7 @@ public class ArtistsTable
 
     public static String getCreateTableQuery()
     {
-        return "CREATE TABLE " + TABLE_NAME + " (" +
+        return "CREATE TABLE " + TABLE + " (" +
                 COLUMN_ARTIST_ID + " INTEGER NOT NULL PRIMARY KEY, " +
                 COLUMN_ARTIST_NAME + " TEXT NOT NULL, " +
                 COLUMN_TRACKS + " INTEGER, " +
@@ -33,6 +33,6 @@ public class ArtistsTable
 
     public static String getDeleteTableQuery()
     {
-        return "DROP TABLE " + TABLE_NAME;
+        return "DROP TABLE IF EXIST " + TABLE;
     }
 }

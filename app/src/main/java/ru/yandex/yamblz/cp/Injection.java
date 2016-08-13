@@ -8,17 +8,10 @@ import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolve
 
 import java.util.List;
 
-import ru.yandex.yamblz.cp.dashboard.DashboardPresenterImpl;
-import ru.yandex.yamblz.cp.dashboard.interfaces.DashboardPresenter;
 import ru.yandex.yamblz.cp.data.entity.Artist;
 import ru.yandex.yamblz.cp.data.entity.mapper.ArtistToStringMapper;
 import ru.yandex.yamblz.cp.data.entity.mapper.TypeMapper;
-import ru.yandex.yamblz.cp.data.repository.DataSource;
-import ru.yandex.yamblz.cp.data.repository.ArtistsRepository;
-import ru.yandex.yamblz.cp.data.repository.source.local.LocalDataSource;
-import ru.yandex.yamblz.cp.data.repository.source.local.provider.ArtistsMeta;
-import ru.yandex.yamblz.cp.data.repository.source.remote.RemoteDataSource;
-import rx.subscriptions.CompositeSubscription;
+import ru.yandex.yamblz.cp.data.source.local.provider.ArtistsMeta;
 
 /**
  * Created by platon on 05.08.2016.

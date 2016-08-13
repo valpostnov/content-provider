@@ -1,4 +1,4 @@
-package ru.yandex.yamblz.cp.data.repository.source.local.table;
+package ru.yandex.yamblz.cp.data.source.local.table;
 
 /**
  * Created by platon on 11.08.2016.
@@ -18,15 +18,15 @@ public class ArtistsGenresTable
     {
         return "CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ARTIST_ID + " INTEGER REFERENCES " +
-                ArtistsTable.TABLE_NAME + "(" +
+                ArtistsTable.TABLE + "(" +
                 ArtistsTable.COLUMN_ARTIST_ID + ") ON UPDATE CASCADE ON DELETE CASCADE," +
                 COLUMN_GENRE_ID + " INTEGER REFERENCES " +
-                GenresTable.TABLE_NAME + "(" +
+                GenresTable.TABLE + "(" +
                 GenresTable.COLUMN_GENRE_ID + ") ON UPDATE CASCADE ON DELETE CASCADE );";
     }
 
     public static String getDeleteTableQuery()
     {
-        return "DROP TABLE " + TABLE_NAME;
+        return "DROP TABLE IF EXIST " + TABLE_NAME;
     }
 }

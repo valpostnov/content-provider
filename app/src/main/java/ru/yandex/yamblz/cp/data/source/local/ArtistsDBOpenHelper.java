@@ -1,13 +1,13 @@
-package ru.yandex.yamblz.cp.data.repository.source.local;
+package ru.yandex.yamblz.cp.data.source.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsGenresTable;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable;
-import ru.yandex.yamblz.cp.data.repository.source.local.table.GenresTable;
-import ru.yandex.yamblz.cp.data.repository.source.local.view.ArtistsView;
+import ru.yandex.yamblz.cp.data.source.local.table.ArtistsGenresTable;
+import ru.yandex.yamblz.cp.data.source.local.table.ArtistsTable;
+import ru.yandex.yamblz.cp.data.source.local.table.GenresTable;
+import ru.yandex.yamblz.cp.data.source.local.view.ArtistsView;
 
 /**
  * Created by platon on 31.07.2016.

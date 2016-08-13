@@ -23,7 +23,7 @@
 
         <provider
             android:authorities="ru.yandex.yamblz.artists_provider"
-            android:name="ru.yandex.yamblz.cp.data.repository.source.local.provider.ArtistsContentProvider"
+            android:name=".data.source.local.provider.ArtistsContentProvider"
             android:enabled="true"
             android:exported="true"
             />

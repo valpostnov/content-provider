@@ -6,4 +6,6 @@ package ru.yandex.yamblz.cp.util;
 public interface INetworkManager
 {
     boolean networkIsAvailable();
+    boolean cellularIsAvailable();
+    boolean wifiIsAvailable();
 }

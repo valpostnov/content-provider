@@ -1,20 +1,15 @@
-package ru.yandex.yamblz.cp.data.repository.source.local.provider;
+package ru.yandex.yamblz.cp.data.source.local.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import ru.yandex.yamblz.cp.data.repository.source.local.ArtistsDBOpenHelper;
-import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManager;
-import ru.yandex.yamblz.cp.data.repository.source.local.db.DBManagerImpl;
-import ru.yandex.yamblz.cp.data.repository.source.local.view.ArtistsView;
-
-import static ru.yandex.yamblz.cp.data.repository.source.local.table.ArtistsTable.TABLE_NAME;
+import ru.yandex.yamblz.cp.data.source.local.ArtistsDBOpenHelper;
+import ru.yandex.yamblz.cp.data.source.local.DBManager;
 
 /**
  * Created by platon on 31.07.2016.
@@ -37,22 +32,23 @@ public class ArtistsContentProvider extends ContentProvider
     @Override
     public boolean onCreate()
     {
-        dbManager = new DBManagerImpl(new ArtistsDBOpenHelper(getContext()));
+        dbManager = new DBManager(new ArtistsDBOpenHelper(getContext()));
         return true;
     }
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
+    public Cursor query(Uri uri, String[] columns, String where, String[] whereArgs, String sortOrder)
     {
         switch (URI_MATCHER.match(uri))
         {
             case CODE_ARTISTS:
 
-                Cursor cursor = dbManager.getArtists(
-                                projection,
-                                selection,
-                                selectionArgs,
+                Cursor cursor = dbManager
+                        .getArtists(
+                                columns,
+                                where,
+                                whereArgs,
                                 sortOrder
                               );
 
@@ -97,7 +93,7 @@ public class ArtistsContentProvider extends ContentProvider
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs)
+    public int delete(Uri uri, String where, String[] whereArgs)
     {
         final int numberOfRowsDeleted;
 
@@ -105,7 +101,7 @@ public class ArtistsContentProvider extends ContentProvider
         {
             case CODE_ARTISTS:
 
-                numberOfRowsDeleted = dbManager.deleteArtist(selection, selectionArgs);
+                numberOfRowsDeleted = dbManager.deleteArtist(where, whereArgs);
                 break;
 
             default:
@@ -121,7 +117,7 @@ public class ArtistsContentProvider extends ContentProvider
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
+    public int update(Uri uri, ContentValues values, String where, String[] whereArgs)
     {
         return -1;
     }

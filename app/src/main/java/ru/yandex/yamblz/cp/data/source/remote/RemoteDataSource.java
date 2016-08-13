@@ -1,4 +1,4 @@
-package ru.yandex.yamblz.cp.data.repository.source.remote;
+package ru.yandex.yamblz.cp.data.source.remote;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.yandex.yamblz.cp.api.ArtistsApi;
 import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.repository.DataSource;
+import ru.yandex.yamblz.cp.data.source.DataSource;
 import rx.Observable;
 
 /**

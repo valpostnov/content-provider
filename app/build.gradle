@@ -62,4 +62,5 @@ dependencies {
     apt "frankiesardo:icepick-processor:$icePickVersion"
 
     compile "com.pushtorefresh.storio:content-resolver:$storeioVersion"
+    compile "com.pushtorefresh.storio:sqlite:$storeioVersion"
 }

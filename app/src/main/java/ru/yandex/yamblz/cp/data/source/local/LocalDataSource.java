@@ -1,22 +1,16 @@
-package ru.yandex.yamblz.cp.data.repository.source.local;
+package ru.yandex.yamblz.cp.data.source.local;
 
-import android.content.ContentResolver;
-
-import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
-import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.queries.DeleteQuery;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
 
 import java.util.List;
 
-import ru.yandex.yamblz.cp.Injection;
 import ru.yandex.yamblz.cp.data.entity.Artist;
-import ru.yandex.yamblz.cp.data.repository.DataSource;
-import ru.yandex.yamblz.cp.data.repository.source.local.provider.ArtistsMeta;
+import ru.yandex.yamblz.cp.data.source.DataSource;
 import rx.Observable;
 
-import static ru.yandex.yamblz.cp.data.repository.source.local.provider.ArtistsMeta.CONTENT_URI;
+import static ru.yandex.yamblz.cp.data.source.local.provider.ArtistsMeta.CONTENT_URI;
 
 /**
  * Created by platon on 31.07.2016.
