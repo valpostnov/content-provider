@@ -80,7 +80,7 @@ public class DBManager
         for (String genre : genres)
         {
             ContentValues genreValues = new ContentValues();
-            genreValues.put(COLUMN_GENRE_NAME, genre);
+            genreValues.put(COLUMN_GENRE_NAME, genre.trim());
 
             writableDB.insert(GenresTable.TABLE, null, genreValues);
         }
@@ -95,7 +95,7 @@ public class DBManager
     {
         Cursor cursor = readableDB.query(
                 GenresTable.TABLE,
-                new String[] { COLUMN_GENRE_ID },
+                new String[] { "*" },
                 COLUMN_GENRE_NAME + " =?",
                 new String[] { genre },
                 null,

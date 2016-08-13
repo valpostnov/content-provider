@@ -69,6 +69,15 @@ public final class DbOpenHelperTest
     }
 
     @Test
+    public void testGetGenreId()
+    {
+        dbManager.putGenre(genreValues);
+        int genreId = dbManager.getGenreId("rock");
+
+        Assert.assertEquals(2, genreId);
+    }
+
+    @Test
     public void testDeleteArtist()
     {
         dbManager.putArtist(artistValues);
