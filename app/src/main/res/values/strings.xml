@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">content-provider</string>
+    <string name="ev_text">Нет данных</string>
+    <string name="action_refresh">Обновить</string>
+</resources>

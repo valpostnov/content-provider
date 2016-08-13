@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        applicationId "ru.yandex.yamblz.content_provider"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    supportLibVersion = "24.1.1"
+    retrofitVersion = "2.0.1"
+    rxAndroidVersion = "1.2.0"
+    butterKnifeVersion = "8.2.1"
+    icePickVersion = "3.2.0"
+    storeioVersion = "1.10.0"
+}
+
+repositories {
+    maven { url "https://clojars.org/repo/" }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.1.2"
+
+    compile "com.android.support:appcompat-v7:$supportLibVersion"
+    compile "com.android.support:recyclerview-v7:$supportLibVersion"
+    compile "com.android.support:support-v4:$supportLibVersion"
+
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+
+    compile "io.reactivex:rxandroid:$rxAndroidVersion"
+
+    compile "com.jakewharton:butterknife:$butterKnifeVersion"
+    apt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+
+    compile "frankiesardo:icepick:$icePickVersion"
+    apt "frankiesardo:icepick-processor:$icePickVersion"
+
+    compile "com.pushtorefresh.storio:content-resolver:$storeioVersion"
+    compile "com.pushtorefresh.storio:sqlite:$storeioVersion"
+}
