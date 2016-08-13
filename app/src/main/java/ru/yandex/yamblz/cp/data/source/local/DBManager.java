@@ -120,7 +120,7 @@ public class DBManager
             ContentValues genreValues = new ContentValues();
 
             genreValues.put(ArtistsGenresTable.COLUMN_ARTIST_ID, artistId);
-            genreValues.put(ArtistsGenresTable.COLUMN_GENRE_ID, getGenreId(genre));
+            genreValues.put(ArtistsGenresTable.COLUMN_GENRE_ID, getGenreId(genre.trim()));
 
             writableDB.insert(ArtistsGenresTable.TABLE_NAME, null, genreValues);
         }

@@ -21,7 +21,7 @@ import ru.yandex.yamblz.cp.data.source.local.table.GenresTable;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-public final class DbOpenHelperTest
+public final class DBManagerTest
 {
     private DBManager dbManager;
     private ContentValues genreValues;
